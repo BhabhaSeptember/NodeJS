@@ -1,0 +1,23 @@
+"use strict";
+
+//Listing 7.4 (Object mapping in contentTypes.js)
+module.exports = {   //exporting content type mapping object
+    html: {
+    "Content-Type": "text/html"
+    },
+    text: {
+    "Content-Type": "text/plain"
+    },
+    js: {
+    "Content-Type": "text/js"
+    },
+    jpg: {
+    "Content-Type": "image/jpg"
+    },
+    png: {
+    "Content-Type": "image/png"
+    },
+    css: {
+    "Content-Type": "text/css"
+    }
+   };
