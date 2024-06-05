@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="col-sm-6">
+    <img src="images/people.jpg" alt="" />
+  </div>
+  <div class="col-sm-6">
+    <h1>Subscribers:</h1>
+
+    <% subscribers.forEach( s=> {%>
+    <p> Name: <%= s.name %></p>
+    <p> Email: <%= s.email %></p>
+    <hr>
+    <% }) %>
+    
+  </div>
+</div>
