@@ -57,5 +57,11 @@ module.exports = {
         console.log(`Error saving subscriber: ${error.message}`);
         next(error);
       });
+  },
+
+  redirectView: (req, res, next) => {
+    let redirectPath = res.locals.redirect;
+    if (redirectPath !== undefined) res.redirect(redirectPath);
+    else next();
   }
 };
