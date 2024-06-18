@@ -40,23 +40,6 @@ module.exports = {
       });
   },
 
-  show: (req, res, next) => {
-    let courseId = req.params.id;
-    Course.findById(courseId)
-      .then(course => {
-        res.locals.course = course;
-        next();
-      })
-      .catch(error => {
-        console.log(`Error fetching course by ID: ${error.message}`);
-        next(error);
-      });
-  },
-
-  showView: (req, res) => {
-    res.render("courses/show");
-  },
-
   redirectView: (req, res, next) => {
     let redirectPath = res.locals.redirect;
     if (redirectPath !== undefined) res.redirect(redirectPath);

@@ -39,7 +39,10 @@ const mongoose = require("mongoose"),
     {
       timestamps: true
     }
+    
   );
+
+  
 
 userSchema.virtual("fullName").get(function() {
   return `${this.name.first} ${this.name.last}`;
