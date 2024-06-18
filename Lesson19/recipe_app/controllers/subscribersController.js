@@ -21,10 +21,7 @@ module.exports = {
 
   saveSubscriber: (req, res) => {
     let newSubscriber = new Subscriber({
-      name: {
-        first: req.body.first,
-        last: req.body.last
-      },
+      name: req.body.name,
       email: req.body.email,
       zipCode: req.body.zipCode
     });
@@ -36,7 +33,7 @@ module.exports = {
       .catch(error => {
         if (error) res.send(error);
       });
-  }, 
+  },
   new: (req, res) => {
     res.render("subscribers/new");
   },
@@ -57,5 +54,28 @@ module.exports = {
         console.log(`Error saving subscriber: ${error.message}`);
         next(error);
       });
+  },
+
+  show: (req, res, next) => {
+    let subscriberId = req.params.id;
+    Subscriber.findById(subscriberId)
+      .then(subscriber => {
+        res.locals.subscriber = subscriber;
+        next();
+      })
+      .catch(error => {
+        console.log(`Error fetching subscriber by ID: ${error.message}`);
+        next(error);
+      });
+  },
+
+  showView: (req, res) => {
+    res.render("subscribers/show");
+  },
+
+  redirectView: (req, res, next) => {
+    let redirectPath = res.locals.redirect;
+    if (redirectPath !== undefined) res.redirect(redirectPath);
+    else next();
   }
 };

@@ -1,5 +1,5 @@
 {
-  "name": "recipe_app",
+  "name": "recipe_app_19_3",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
@@ -15,6 +15,6 @@
     "express-ejs-layouts": "^2.5.1",
     "http-status-codes": "^2.3.0",
     "mongodb": "^6.7.0",
-    "mongoose": "^8.4.1"
+    "mongoose": "^8.4.3"
   }
 }
