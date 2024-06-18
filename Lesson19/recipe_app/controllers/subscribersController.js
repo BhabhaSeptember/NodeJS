@@ -21,7 +21,10 @@ module.exports = {
 
   saveSubscriber: (req, res) => {
     let newSubscriber = new Subscriber({
-      name: req.body.name,
+      name: {
+        first: req.body.first,
+        last: req.body.last
+      },
       email: req.body.email,
       zipCode: req.body.zipCode
     });
@@ -33,7 +36,7 @@ module.exports = {
       .catch(error => {
         if (error) res.send(error);
       });
-  },
+  }, 
   new: (req, res) => {
     res.render("subscribers/new");
   },
@@ -54,23 +57,6 @@ module.exports = {
         console.log(`Error saving subscriber: ${error.message}`);
         next(error);
       });
-  },
-
-  show: (req, res, next) => {
-    let subscriberId = req.params.id;
-    Subscriber.findById(subscriberId)
-      .then(subscriber => {
-        res.locals.subscriber = subscriber;
-        next();
-      })
-      .catch(error => {
-        console.log(`Error fetching subscriber by ID: ${error.message}`);
-        next(error);
-      });
-  },
-
-  showView: (req, res) => {
-    res.render("subscribers/show");
   },
 
   redirectView: (req, res, next) => {
