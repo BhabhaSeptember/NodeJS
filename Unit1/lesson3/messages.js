@@ -1,4 +1,5 @@
 "use strict";
+
 //Export makes file available to other files
 exports.messages = [
     "Keep on going!", 
