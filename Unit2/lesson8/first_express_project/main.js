@@ -7,10 +7,10 @@ const app = express();
 // })
 app
   .get("/", (req, res) => {
-    console.log(req.params);
-    console.log(req.body);
-    console.log(req.url);
-    console.log(req.query);
+    console.log("Req params: ", req.params);
+    console.log("Req body: ", req.body);
+    console.log("Req URL: ", req.url);
+    console.log("Req query: ", req.query);
     res.send("<h1> Hello, there!! </h1>");
   })
   .listen(port, () => {

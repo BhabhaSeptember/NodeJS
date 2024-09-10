@@ -18,8 +18,8 @@ app.on("request", (req, res) => {
     console.log(`Request Body Contents: ${body}`);
   });
   console.log(`Method: ${getJSONString(req.method)}`);
-  console.log(`Method: ${getJSONString(req.url)}`);
-  console.log(`Method: ${getJSONString(req.headers)}`);
+  console.log(`URL: ${getJSONString(req.url)}`);
+  console.log(`Headers: ${getJSONString(req.headers)}`);
 
   res.writeHead(httpStatus.OK, {
     "Content-Type": "text/html",
