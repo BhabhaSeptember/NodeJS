@@ -1,6 +1,6 @@
 const port = 3000;
 const http = require("http");
-const httpStatus = require("http-status-codes");
+const httpStatusCodes = require("http-status-codes");
 const fs = require("fs");
 const router = require("./router");
 const plainTextContentType = {

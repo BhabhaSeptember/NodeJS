@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
+"use strict";
 
-//SUBSCRIBER SCHEMA
-const subscriberSchema = mongoose.Schema({
+const mongoose = require("mongoose"),
+  subscriberSchema = mongoose.Schema({
     name: String,
     email: String,
     zipCode: Number
   });
-  
+
 module.exports = mongoose.model("Subscriber", subscriberSchema);

@@ -9,24 +9,24 @@ const layouts = require("express-ejs-layouts");
 //---------------------------------------------------------------------------------------------
 const Subscriber = require("./models/subscriber");
 
-
 //MONGOOSE CONNECTION
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://0.0.0.0:27017/recipe_db", {useNewUrlParser: true}
-);
+mongoose.connect("mongodb://0.0.0.0:27017/recipe_db", {
+  useNewUrlParser: true,
+});
 const db = mongoose.connection;
 
-db.once("open", ()=> {
-  console.log("Successfully connected to MongoDB using Mongoose...")
+db.once("open", () => {
+  console.log("Successfully connected to MongoDB using Mongoose...");
 });
-
 
 //CREATE & SAVE MODELS IN MAIN.JS
 //USING CALLBACK FUNCTIONS
 //Option1
 // let subscriber1 = new Subscriber({
-//   name: "Audrey Ntomboxolo",
-//   email: "audreyseptember@gmail.com"
+// name: "Victor Poto",
+// email: "victorseptember@gmail.com"
+
 // });
 
 // subscriber1.save((error, savedDocument) => {
@@ -59,28 +59,25 @@ db.once("open", ()=> {
 //USING PROMISES
 //Option2
 Subscriber.create({
-  name: "Victor Poto",
-  email: "victorseptember@gmail.com"
+  name: "Audrey Ntomboxolo",
+  email: "audreyseptember@gmail.com",
 })
-  .then(savedDocument => {
+  .then((savedDocument) => {
     console.log(savedDocument);
   })
-  .catch(error => {
+  .catch((error) => {
     console.log(error);
   });
-
 
 //RUNNING A QUERY
 const query = Subscriber.find({ name: "Victor Poto" }).exec();
 query
-  .then(docs => {
+  .then((docs) => {
     console.log(docs); // Handle the results
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err); // Handle errors
   });
-
-
 
 app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
