@@ -5,9 +5,11 @@ const express = require("express"),
   errorController = require("./controllers/errorController"),
   homeController = require("./controllers/homeController"),
   subscribersController = require("./controllers/subscribersController"),
+  usersController = require("./controllers/usersController"),
   layouts = require("express-ejs-layouts"),
   mongoose = require("mongoose"),
-  Subscriber = require("./models/subscriber");
+  Subscriber = require("./models/subscriber"),
+  User = require("./models/user");
 
 mongoose.connect(
   "mongodb://0.0.0.0:27017/recipe_db",
@@ -52,6 +54,9 @@ app.post("/contact", homeController.postedContactForm);
 app.get("/subscribers", subscribersController.getAllSubscribers)
 app.get("/contact", subscribersController.getSubscriptionPage);
 app.post("/subscribe", subscribersController.saveSubscriber);
+
+//Users
+app.get("/users", usersController.index);
 
 //Error Handling
 app.use(errorController.logErrors);
