@@ -28,13 +28,13 @@ mongoose.Promise = global.Promise;
 // subscriber => console.log(subscriber)).catch(
 // error => console.log(error.message));
 
-let subscriber;
-Subscriber.findOne({
-name: "Janet"}).then(
-result => {
-subscriber = result;
-console.log(subscriber.getInfo());
-});
+// let subscriber;
+// Subscriber.findOne({
+// name: "Janet"}).then(
+// result => {
+// subscriber = result;
+// console.log(subscriber.getInfo());
+// });
 
 //--------------------------------------------------------------------
 // let testCourse, testSubscriber;
