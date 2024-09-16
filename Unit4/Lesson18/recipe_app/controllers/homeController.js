@@ -18,8 +18,8 @@ var courses = [
 //Prevents repetitive code
 module.exports = {
   showCourses: (req, res) => {
-    res.render("courses", {
-      offeredCourses: courses,
+    res.render("courses/index", {
+      courses: courses,
     });
   },
   index: (req, res) => {
