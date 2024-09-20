@@ -4,10 +4,11 @@ const Subscriber = require("../models/subscriber");
 
 const getSubscriberParams = body => {
   return {
-    name: {
-      first: body.first,
-    last: body.last
-  },
+  //   name: {
+  //     first: body.first,
+  //   last: body.last
+  // },
+  name: body.name,
   email: body.email,
   zipCode: body.zipCode,
   };
@@ -59,7 +60,7 @@ module.exports = {
     let subscriberParams = getSubscriberParams(req.body);
     Subscriber.create(subscriberParams)
       .then(subscriber => {
-        req.flash("success",` ${subscriber.fullName}'s subscription created successfully!`);
+        req.flash("success",` ${subscriber.name}'s subscription created successfully!`);
         res.locals.redirect = "/subscribers";
         res.locals.subscriber = subscriber;
         next();
