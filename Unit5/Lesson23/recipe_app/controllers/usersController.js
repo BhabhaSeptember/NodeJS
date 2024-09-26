@@ -130,17 +130,22 @@ module.exports = {
         next();
       });
   },
+
+  //-------------------------------------------------------------------
   login: (req, res) => {
     res.render("users/login");
   },
 
   authenticate: (req, res, next) => {
+    //Finds single user or no user at all in database
     User.findOne({
       email: req.body.email,
     })
       .then((user) => {
         if (user) {
-          user.passwordComparison(req.body.password).then((passwordsMatch) => {
+          //Check IF input password matches users known password
+          user.passwordComparison(req.body.password)
+          .then((passwordsMatch) => {
             if (passwordsMatch) {
               res.locals.redirect = `/users/${user._id}`;
               req.flash(
@@ -151,13 +156,16 @@ module.exports = {
             } else {
               req.flash(
                 "error",
-                "Failed to log in user account: Incorrect Password."
+                "Your account or password is incorrect. Please try again or contact your system administrator!"
               );
               res.locals.redirect = "/users/login";
             }
             next();
           });
-        } else {
+        } 
+        
+        //OR ELSE user does not exist in the database
+        else {
           req.flash(
             "error",
             "Failed to log in user account: User account not found."
@@ -181,7 +189,7 @@ module.exports = {
       .trim();
     req.check("email", "Email is invalid").isEmail();
     req
-      .check("zipCode", "Zip code is invalid")
+      .check("zipCode", "Zip code must be 5 digits")
       .notEmpty()
       .isInt()
       .isLength({
@@ -192,8 +200,10 @@ module.exports = {
     req.check("password", "Password cannot be empty").notEmpty();
 
     req.getValidationResult().then((error) => {
-      if (!error.isEmpty()) {
+      if (!error.isEmpty()) { //i.e. there is an error
         let messages = error.array().map((e) => e.msg);
+
+        //SKIP teels create function not to process user data because of validation errors
         req.skip = true;
         req.flash("error", messages.join(" and "));
         res.locals.redirect = "/users/new";

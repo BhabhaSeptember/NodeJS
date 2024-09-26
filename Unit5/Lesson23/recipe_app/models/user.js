@@ -1,46 +1,51 @@
 "use strict";
 
-const mongoose = require("mongoose"),
-  bcrypt = require("bcrypt"), //encrypts user password
-  { Schema } = mongoose,
-  Subscriber = require("./subscriber"),
-  userSchema = new Schema(
-    {
-      name: {
-        first: {
-          type: String,
-          trim: true,
-        },
-        last: {
-          type: String,
-          trim: true,
-        },
-      },
-      email: {
+const mongoose = require("mongoose");
+
+//-------------------------------------------------------------------
+const bcrypt = require("bcrypt"); //encrypts user password
+//-------------------------------------------------------------------
+
+const { Schema } = mongoose;
+const Subscriber = require("./subscriber");
+
+const userSchema = new Schema(
+  {
+    name: {
+      first: {
         type: String,
-        required: true,
-        lowercase: true,
-        unique: true,
+        trim: true,
       },
-      zipCode: {
-        type: Number,
-        min: [1000, "Zip code too short"],
-        max: 99999,
-      },
-      password: {
+      last: {
         type: String,
-        required: true,
-      },
-      courses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
-      subscribedAccount: {
-        type: Schema.Types.ObjectId,
-        ref: "Subscriber",
+        trim: true,
       },
     },
-    {
-      timestamps: true,
-    }
-  );
+    email: {
+      type: String,
+      required: true,
+      lowercase: true,
+      unique: true,
+    },
+    zipCode: {
+      type: Number,
+      min: [1000, "Zip code too short"],
+      max: 99999,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    courses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
+    subscribedAccount: {
+      type: Schema.Types.ObjectId,
+      ref: "Subscriber",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 userSchema.virtual("fullName").get(function () {
   return `${this.name.first} ${this.name.last}`;
@@ -66,9 +71,12 @@ userSchema.pre("save", function (next) {
   }
 });
 
-//HOOK HASHES USER PASSWORD
+//-------------------------------------------------------------------------------
+//PRE HOOK WILL HASH USER PASSWORD
 userSchema.pre("save", function (next) {
   let user = this;
+
+  //Number represents level of complexity against which we want to hash password
   bcrypt
     .hash(user.password, 10)
     .then((hash) => {
@@ -81,8 +89,11 @@ userSchema.pre("save", function (next) {
     });
 });
 
+//Custom method
 userSchema.methods.passwordComparison = function (inputPassword) {
   let user = this;
-  return bcrypt.compare(inputPassword, user.password);
+  return bcrypt.compare(inputPassword, user.password); //returns boolean value
 };
+//-------------------------------------------------------------------------------
+
 module.exports = mongoose.model("User", userSchema);
