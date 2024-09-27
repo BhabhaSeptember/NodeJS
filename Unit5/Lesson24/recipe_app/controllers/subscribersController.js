@@ -2,17 +2,6 @@
 
 const Subscriber = require("../models/subscriber");
 
-const getSubscriberParams = body => {
-  return {
-    name: {
-      first: body.first,
-    last: body.last
-  },
-  email: body.email,
-  zipCode: body.zipCode,
-  };
-};
-
 module.exports = {
   index: (req, res, next) => {
     Subscriber.find({})
@@ -27,13 +16,7 @@ module.exports = {
   },
 
   indexView: (req, res) => {
-    res.render("subscribers/index"
-    // , {
-    //   flashMessages: {
-    //     success: "Loaded all subscribers!"
-    //   }
-    // }
-    );
+    res.render("subscribers/index");
   },
 
   saveSubscriber: (req, res) => {
@@ -56,20 +39,20 @@ module.exports = {
   },
 
   create: (req, res, next) => {
-    let subscriberParams = getSubscriberParams(req.body);
+    let subscriberParams = {
+      name: req.body.name,
+      email: req.body.email,
+      zipCode: req.body.zipCode
+    };
     Subscriber.create(subscriberParams)
       .then(subscriber => {
-        req.flash("success",` ${subscriber.fullName}'s subscription created successfully!`);
         res.locals.redirect = "/subscribers";
         res.locals.subscriber = subscriber;
         next();
       })
       .catch(error => {
         console.log(`Error saving subscriber: ${error.message}`);
-        res.locals.redirect = "/subscribers/new";
-        req.flash("error", `Failed to create subscription because: ${error.message}.`
-        );
-        next();
+        next(error);
       });
   },
 

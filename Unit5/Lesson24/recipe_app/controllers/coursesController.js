@@ -1,14 +1,6 @@
 "use strict";
 
 const Course = require("../models/course");
-const getCourseParams = body => {
-  return {
-  title: body.title,
-  description: body.description,
-  items: body.items,
-  zipCode: body.zipCode
-  };
-};
 
 module.exports = {
   index: (req, res, next) => {
@@ -22,36 +14,29 @@ module.exports = {
         next(error);
       });
   },
-
   indexView: (req, res) => {
-    res.render("courses/index"
-    // , {
-    //   flashMessages: {
-    //     success: "Loaded all courses!"
-    //   }
-    // }
-    );
+    res.render("courses/index");
   },
   new: (req, res) => {
     res.render("courses/new");
   },
 
-
   create: (req, res, next) => {
-    let courseParams = getCourseParams(req.body);
+    let courseParams = {
+      title: req.body.title,
+      description: req.body.description,
+      items: [req.body.items.split(",")],
+      zipCode: req.body.zipCode
+    };
     Course.create(courseParams)
       .then(course => {
-        req.flash("success",` ${course.title} course created successfully!`);
         res.locals.redirect = "/courses";
         res.locals.course = course;
         next();
       })
       .catch(error => {
         console.log(`Error saving course: ${error.message}`);
-        res.locals.redirect = "/courses/new";
-        req.flash("error", `Failed to create course because: ${error.message}.`
-        );
-        next();
+        next(error);
       });
   },
 

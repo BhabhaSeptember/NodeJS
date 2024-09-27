@@ -1,68 +1,62 @@
 "use strict";
 
-const mongoose = require("mongoose");
-
-//-------------------------------------------------------------------
-const bcrypt = require("bcrypt"); //encrypts user password
-//-------------------------------------------------------------------
-
-const { Schema } = mongoose;
-const Subscriber = require("./subscriber");
-
-const userSchema = new Schema(
-  {
-    name: {
-      first: {
-        type: String,
-        trim: true,
+const mongoose = require("mongoose"),
+  { Schema } = mongoose,
+  Subscriber = require("./subscriber"),
+  bcrypt = require("bcrypt"),
+  userSchema = new Schema(
+    {
+      name: {
+        first: {
+          type: String,
+          trim: true
+        },
+        last: {
+          type: String,
+          trim: true
+        }
       },
-      last: {
+      email: {
         type: String,
-        trim: true,
+        required: true,
+        lowercase: true,
+        unique: true
       },
+      zipCode: {
+        type: Number,
+        min: [1000, "Zip code too short"],
+        max: 99999
+      },
+      password: {
+        type: String,
+        required: true
+      },
+      courses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
+      subscribedAccount: {
+        type: Schema.Types.ObjectId,
+        ref: "Subscriber"
+      }
     },
-    email: {
-      type: String,
-      required: true,
-      lowercase: true,
-      unique: true,
-    },
-    zipCode: {
-      type: Number,
-      min: [1000, "Zip code too short"],
-      max: 99999,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    courses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
-    subscribedAccount: {
-      type: Schema.Types.ObjectId,
-      ref: "Subscriber",
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
+    {
+      timestamps: true
+    }
+  );
 
-userSchema.virtual("fullName").get(function () {
+userSchema.virtual("fullName").get(function() {
   return `${this.name.first} ${this.name.last}`;
 });
 
-//HOOK LINKS USER TO PREEXISTING SUBSCRIBER
-userSchema.pre("save", function (next) {
+userSchema.pre("save", function(next) {
   let user = this;
   if (user.subscribedAccount === undefined) {
     Subscriber.findOne({
-      email: user.email,
+      email: user.email
     })
-      .then((subscriber) => {
+      .then(subscriber => {
         user.subscribedAccount = subscriber;
         next();
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(`Error in connecting subscriber:${error.message}`);
         next(error);
       });
@@ -71,29 +65,23 @@ userSchema.pre("save", function (next) {
   }
 });
 
-//-------------------------------------------------------------------------------
-//PRE HOOK WILL HASH USER PASSWORD
-userSchema.pre("save", function (next) {
+userSchema.pre("save", function(next) {
   let user = this;
-
-  //Number represents level of complexity against which we want to hash password
   bcrypt
     .hash(user.password, 10)
-    .then((hash) => {
+    .then(hash => {
       user.password = hash;
       next();
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(`Error in hashing password: ${error.message}`);
       next(error);
     });
 });
 
-//Custom method
-userSchema.methods.passwordComparison = function (inputPassword) {
+userSchema.methods.passwordComparison = function(inputPassword) {
   let user = this;
-  return bcrypt.compare(inputPassword, user.password); //returns boolean value
+  return bcrypt.compare(inputPassword, user.password);
 };
-//-------------------------------------------------------------------------------
 
 module.exports = mongoose.model("User", userSchema);
