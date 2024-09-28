@@ -1,11 +1,11 @@
 "use strict";
 
-const router = require("express").Router(),
-  userRoutes = require("./userRoutes"),
-  subscriberRoutes = require("./subscriberRoutes"),
-  courseRoutes = require("./courseRoutes"),
-  errorRoutes = require("./errorRoutes"),
-  homeRoutes = require("./homeRoutes");
+const router = require("express").Router();
+const userRoutes = require("./userRoutes");
+const subscriberRoutes = require("./subscriberRoutes");
+const courseRoutes = require("./courseRoutes");
+const errorRoutes = require("./errorRoutes");
+const homeRoutes = require("./homeRoutes");
 
 router.use("/users", userRoutes);
 router.use("/subscribers", subscriberRoutes);

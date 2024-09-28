@@ -1,26 +1,26 @@
 "use strict";
 
-const express = require("express"),
-  app = express(),
-  router = express.Router(),
-  layouts = require("express-ejs-layouts"),
-  mongoose = require("mongoose"),
-  methodOverride = require("method-override"),
-  expressSession = require("express-session"),
-  cookieParser = require("cookie-parser"),
-  connectFlash = require("connect-flash"),
-	expressValidator = require("express-validator"),
-  errorController = require("./controllers/errorController"),
-  homeController = require("./controllers/homeController"),
-  subscribersController = require("./controllers/subscribersController"),
-  usersController = require("./controllers/usersController"),
-  coursesController = require("./controllers/coursesController"),
-  Subscriber = require("./models/subscriber");
+const express = require("express");
+const app = express();
+const router = express.Router();
+const layouts = require("express-ejs-layouts");
+const mongoose = require("mongoose");
+const methodOverride = require("method-override");
+const expressSession = require("express-session");
+const cookieParser = require("cookie-parser");
+const connectFlash = require("connect-flash");
+const expressValidator = require("express-validator");
+const errorController = require("./controllers/errorController");
+const homeController = require("./controllers/homeController");
+const subscribersController = require("./controllers/subscribersController");
+const usersController = require("./controllers/usersController");
+const coursesController = require("./controllers/coursesController");
+const Subscriber = require("./models/subscriber");
 
 mongoose.Promise = global.Promise;
 
 mongoose.connect(
-  "mongodb://localhost:27017/recipe_db",
+  "mongodb://0.0.0.0:27017/recipe_db",
   { useNewUrlParser: true }
 );
 mongoose.set("useCreateIndex", true);
@@ -69,9 +69,11 @@ router.use((req, res, next) => {
 router.use(expressValidator());
 router.use(homeController.logRequestPaths);
 
+//HOME
 router.get("/", homeController.index);
 router.get("/contact", homeController.getSubscriptionPage);
 
+//USERS
 router.get("/users", usersController.index, usersController.indexView);
 router.get("/users/new", usersController.new);
 router.post("/users/create", usersController.validate, usersController.create, usersController.redirectView);
@@ -82,26 +84,17 @@ router.put("/users/:id/update", usersController.update, usersController.redirect
 router.delete("/users/:id/delete", usersController.delete, usersController.redirectView);
 router.get("/users/:id", usersController.show, usersController.showView);
 
+//SUBSCRIBERS
 router.get("/subscribers", subscribersController.index, subscribersController.indexView);
 router.get("/subscribers/new", subscribersController.new);
-router.post(
-  "/subscribers/create",
-  subscribersController.create,
-  subscribersController.redirectView
-);
+router.post( "/subscribers/create", subscribersController.create, subscribersController.redirectView);
 router.get("/subscribers/:id/edit", subscribersController.edit);
-router.put(
-  "/subscribers/:id/update",
-  subscribersController.update,
-  subscribersController.redirectView
-);
-router.delete(
-  "/subscribers/:id/delete",
-  subscribersController.delete,
-  subscribersController.redirectView
-);
+router.put( "/subscribers/:id/update", subscribersController.update, subscribersController.redirectView);
+router.delete( "/subscribers/:id/delete", subscribersController.delete, subscribersController.redirectView);
 router.get("/subscribers/:id", subscribersController.show, subscribersController.showView);
+router.post("/subscribe", subscribersController.saveSubscriber);
 
+//COURSES
 router.get("/courses", coursesController.index, coursesController.indexView);
 router.get("/courses/new", coursesController.new);
 router.post("/courses/create", coursesController.create, coursesController.redirectView);
@@ -110,8 +103,7 @@ router.put("/courses/:id/update", coursesController.update, coursesController.re
 router.delete("/courses/:id/delete", coursesController.delete, coursesController.redirectView);
 router.get("/courses/:id", coursesController.show, coursesController.showView);
 
-router.post("/subscribe", subscribersController.saveSubscriber);
-
+//ERROR HANDLING
 router.use(errorController.logErrors);
 router.use(errorController.respondNoResourceFound);
 router.use(errorController.respondInternalError);

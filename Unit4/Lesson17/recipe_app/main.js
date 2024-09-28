@@ -1,13 +1,13 @@
 "use strict";
 
-const express = require("express"),
-  app = express(),
-  errorController = require("./controllers/errorController"),
-  homeController = require("./controllers/homeController"),
-  subscribersController = require("./controllers/subscribersController"),
-  layouts = require("express-ejs-layouts"),
-  mongoose = require("mongoose"),
-  Subscriber = require("./models/subscriber");
+const express = require("express");
+const app = express();
+const errorController = require("./controllers/errorController");
+const homeController = require("./controllers/homeController");
+const subscribersController = require("./controllers/subscribersController");
+const layouts = require("express-ejs-layouts");
+const mongoose = require("mongoose");
+const Subscriber = require("./models/subscriber");
 
 mongoose.connect(
   "mongodb://0.0.0.0:27017/recipe_db",

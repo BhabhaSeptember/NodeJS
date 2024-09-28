@@ -9,12 +9,12 @@ mongoose.Promise = global.Promise;
 
 
 //-----------CREATE NEW SUBSCRIBER---------------
-Subscriber.create({
-name: "Bhabha",
-email: "bhabha2@gmail.com",
-zipCode: "12345"})
-.then(subscriber => console.log(subscriber))
-.catch(error => console.log(error.message));
+// Subscriber.create({
+// name: "Bhabha",
+// email: "bhabha2@gmail.com",
+// zipCode: "12345"})
+// .then(subscriber => console.log(subscriber))
+// .catch(error => console.log(error.message));
 
 //-----------TESTING EMAIL VALIDATION--------------
 // Subscriber.create({
@@ -46,41 +46,41 @@ zipCode: "12345"})
 
 // --------------------CREATE A NEW COURSE-------------------
 
-// async function main() {
-//     try {
-//       // Create a new course
-//       const testCourse2024 = await Course.create({
-//         title: "Test Course Example",
-//         description: "Example : Test Course",
-//         zipCode: 12345,
-//         items: ["testItem1", "testItem2"]
-//       });
+async function main() {
+    try {
+      // Create a new course
+      const testCourse2024 = await Course.create({
+        title: "Test Course Example",
+        description: "Example : Test Course",
+        zipCode: 12345,
+        items: ["testItem1", "testItem2"]
+      });
   
-//       // Find a subscriber
-//       const testSubscriber2024 = await Subscriber.findOne({});
+      // Find a subscriber
+      const testSubscriber2024 = await Subscriber.findOne({});
       
-//       if (testSubscriber2024) {
-//         // Ensure courses property is an array
-//         if (!Array.isArray(testSubscriber2024.courses)) {
-//           testSubscriber2024.courses = [];
-//         }
+      if (testSubscriber2024) {
+        // Ensure courses property is an array
+        if (!Array.isArray(testSubscriber2024.courses)) {
+          testSubscriber2024.courses = [];
+        }
   
-//         // Push course ID to the subscriber's courses array
-//         testSubscriber2024.courses.push(testCourse2024._id);
+        // Push course ID to the subscriber's courses array
+        testSubscriber2024.courses.push(testCourse2024._id);
         
-//         // Save the updated subscriber
-//         await testSubscriber2024.save();
+        // Save the updated subscriber
+        await testSubscriber2024.save();
   
-//         // Populate the courses field and log the result
-//         await Subscriber.populate(testSubscriber2024, { path: "courses" });
-//         console.log(testSubscriber2024);
-//       } else {
-//         console.log('Subscriber not found');
-//       }
-//     } catch (error) {
-//       console.error('Error:', error.message);
-//     }
-//   }
+        // Populate the courses field and log the result
+        await Subscriber.populate(testSubscriber2024, { path: "courses" });
+        console.log(testSubscriber2024);
+      } else {
+        console.log('Subscriber not found');
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  }
   
-//   main();
+  main();
   
