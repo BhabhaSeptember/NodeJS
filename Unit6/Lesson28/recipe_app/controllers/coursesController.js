@@ -1,8 +1,8 @@
 "use strict";
 
-const Course = require("../models/course");
-const httpStatus = require("http-status-codes");
-const User = require("../models/user");
+const Course = require("../models/course"),
+  httpStatus = require("http-status-codes"),
+  User = require("../models/user");
 
 module.exports = {
   index: (req, res, next) => {
@@ -116,7 +116,7 @@ module.exports = {
   },
   respondJSON: (req, res) => {
     res.json({
-      status: httpStatus.OK, //Status code 200
+      status: httpStatus.OK,
       data: res.locals
     });
   },
@@ -133,7 +133,6 @@ module.exports = {
         message: "Unknown Error."
       };
     }
-    //Responds with error object in browser
     res.json(errorObject);
   },
   join: (req, res, next) => {
