@@ -1,28 +1,28 @@
 "use strict";
 
-const express = require("express"),
-  app = express(),
-  router = require("./routes/index"),
-  layouts = require("express-ejs-layouts"),
-  mongoose = require("mongoose"),
-  methodOverride = require("method-override"),
-  expressSession = require("express-session"),
-  cookieParser = require("cookie-parser"),
-  connectFlash = require("connect-flash"),
-  expressValidator = require("express-validator"),
-  passport = require("passport"),
-  errorController = require("./controllers/errorController"),
-  homeController = require("./controllers/homeController"),
-  subscribersController = require("./controllers/subscribersController"),
-  usersController = require("./controllers/usersController"),
-  coursesController = require("./controllers/coursesController"),
-  User = require("./models/user");
+const express = require("express");
+const app = express();
+
+//------------------------------------------------------
+const router = require("./routes/index");
+//------------------------------------------------------
+
+const layouts = require("express-ejs-layouts");
+const mongoose = require("mongoose");
+const methodOverride = require("method-override");
+const expressSession = require("express-session");
+const cookieParser = require("cookie-parser");
+const connectFlash = require("connect-flash");
+const expressValidator = require("express-validator");
+const passport = require("passport");
+const homeController = require("./controllers/homeController");
+const User = require("./models/user");
 
 mongoose.Promise = global.Promise;
+
 mongoose.connect(
   "mongodb://0.0.0.0:27017/recipe_db",
-  { useNewUrlParser: true ,
-	 useFindAndModify: false }
+  { useNewUrlParser: true }
 );
 mongoose.set("useCreateIndex", true);
 
@@ -34,7 +34,7 @@ db.once("open", () => {
 
 app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
-app.set("token", process.env.TOKEN || "recipeT0k3n");
+app.set("token", process.env.TOKEN || "recipeT0k3n");  
 
 app.use(express.static("public"));
 app.use(layouts);
@@ -76,9 +76,14 @@ app.use((req, res, next) => {
   res.locals.flashMessages = req.flash();
   next();
 });
-app.use(expressValidator());
 
+app.use(expressValidator());
+app.use(homeController.logRequestPaths);
+
+//------------------------------------------------------
 app.use("/", router);
+//------------------------------------------------------
+
 
 app.listen(app.get("port"), () => {
   console.log(`Server running at http://localhost:${app.get("port")}`);

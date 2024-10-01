@@ -1,3 +1,4 @@
+//Ensure no JS is run until DOM is loaded and ready
 $(document).ready(() => {
   $("#modal-button").click(() => {
     $(".modal-body").html("");

@@ -2,7 +2,11 @@
 
 const express = require("express");
 const app = express();
+
+//------------------------------------------------------
 const router = require("./routes/index");
+//------------------------------------------------------
+
 const layouts = require("express-ejs-layouts");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
@@ -11,18 +15,16 @@ const cookieParser = require("cookie-parser");
 const connectFlash = require("connect-flash");
 const expressValidator = require("express-validator");
 const passport = require("passport");
-const errorController = require("./controllers/errorController");
 const homeController = require("./controllers/homeController");
-const subscribersController = require("./controllers/subscribersController");
-const usersController = require("./controllers/usersController");
-const coursesController = require("./controllers/coursesController");
 const User = require("./models/user");
 
+
+
 mongoose.Promise = global.Promise;
+
 mongoose.connect(
   "mongodb://0.0.0.0:27017/recipe_db",
-  { useNewUrlParser: true ,
-	 useFindAndModify: false }
+  { useNewUrlParser: true }
 );
 mongoose.set("useCreateIndex", true);
 
@@ -75,9 +77,14 @@ app.use((req, res, next) => {
   res.locals.flashMessages = req.flash();
   next();
 });
-app.use(expressValidator());
 
+app.use(expressValidator());
+app.use(homeController.logRequestPaths);
+
+//------------------------------------------------------
 app.use("/", router);
+//------------------------------------------------------
+
 
 app.listen(app.get("port"), () => {
   console.log(`Server running at http://localhost:${app.get("port")}`);

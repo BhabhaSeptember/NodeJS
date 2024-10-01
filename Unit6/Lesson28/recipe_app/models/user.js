@@ -1,11 +1,11 @@
 "use strict";
 
-const mongoose = require("mongoose"),
-  { Schema } = mongoose,
-  Subscriber = require("./subscriber"),
-  bcrypt = require("bcrypt"),
-  passportLocalMongoose = require("passport-local-mongoose"),
-  randToken = require("rand-token"),
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
+const Subscriber = require("./subscriber");
+const randToken = require("rand-token");
+
+const passportLocalMongoose = require("passport-local-mongoose"),
   userSchema = new Schema(
     {
       name: {
@@ -24,9 +24,9 @@ const mongoose = require("mongoose"),
         lowercase: true,
         unique: true
       },
-      // apiToken: {
-      //   type: String
-      // },
+      apiToken: {
+        type: String
+      },
       zipCode: {
         type: Number,
         min: [1000, "Zip code too short"],
@@ -41,6 +41,7 @@ const mongoose = require("mongoose"),
     {
       timestamps: true
     }
+
   );
 
 userSchema.virtual("fullName").get(function() {
@@ -66,11 +67,12 @@ userSchema.pre("save", function(next) {
   }
 });
 
-// userSchema.pre("save", function(next) {
-//   let user = this;
-//   if (!user.apiToken) user.apiToken = randToken.generate(16);
-//   next();
-// });
+userSchema.pre("save", function(next) {
+  let user = this;
+  if (!user.apiToken) user.apiToken = randToken.generate(16);
+  next();
+});
+
 
 userSchema.plugin(passportLocalMongoose, {
   usernameField: "email"
