@@ -23,7 +23,8 @@
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <p></p>
                         <div class="my-5">
-                            <form action="/posts/store" method="POST">
+                            <!-- <form action="/posts/store" method="POST" enctype="multipart/form-data"
+                            >
                                 <div class="form-floating">
                                     <input class="form-control" id="title" name="title" type="text" placeholder="Enter a title..." />
                                     <label for="title">Title</label>
@@ -33,10 +34,44 @@
                                     <textarea class="form-control" id="body" name="body" rows="5" placeholder="Enter your post here..."></textarea>
                                     <label for="body">Body</label>
                                 </div>
+
+                                <div class="form-floating">
+                                    <div class="form-group floating-label-form-group controls">
+                                    <label for="title">Image</label> 
+                                    <input class="form-control" id="image" type="file" name="image" />
+                                    
+                                </div>
+
+
+                                <br />
+                                
+                                <button class="btn btn-primary text-uppercase" id="sendMessageButton" type="submit">Send</button>
+                            </form> -->
+
+
+                            <form action="/posts/store" method="POST" enctype="multipart/form-data">
+                                <div class="form-floating">
+                                    <input class="form-control" id="title" name="title" type="text" placeholder="Enter a title..." required />
+                                    <label for="title">Title</label>
+                                </div>
+                            
+                                <div class="form-floating">
+                                    <textarea class="form-control" id="body" name="body" rows="5" placeholder="Enter your post here..." required></textarea>
+                                    <label for="body">Body</label>
+                                </div>
+                            
+                                <div class="form-floating">
+                                    <div class="form-group floating-label-form-group controls">
+                                        <label for="image">Image</label> 
+                                        <input class="form-control" id="image" name="image" type="file" required />
+                                    </div>
+                                </div>
+                            
                                 <br />
                                 
                                 <button class="btn btn-primary text-uppercase" id="sendMessageButton" type="submit">Send</button>
                             </form>
+                            
                         </div>
                     </div>
                 </div>

@@ -2,6 +2,9 @@
 
 const User = require("../models/user");
 const passport = require("passport");
+const jsonWebToken = require("jsonwebtoken");
+
+
 const getUserParams = body => {
     return {
       name: {
@@ -184,5 +187,30 @@ module.exports = {
     } else {
       next(new Error("API token unrecognized/invalid"));
     }
+  },
+
+  apiAuthenticate: (req, res, next) => {
+  //Verify user email address and password match that of a User in database  
+    passport.authenticate("local", (errors, user) => {
+      if (user) {
+  //Create token with users ID & expiration date   
+        let signedToken = jsonWebToken.sign(
+          {
+            date: user._id,
+            exp: new Date().setDate(new Date().getDate() + 1) //Expires 1 day from the time of signing (24hrs)
+          },
+          "secret_encoding_passphrase"
+        );
+        res.json({
+          success: true,
+          token: signedToken
+        });
+      } else {
+        res.json({
+          success: false,
+          message: "Could not authenticate user..."
+        });
+      }(res, res, next);
+    })
   }
 };
