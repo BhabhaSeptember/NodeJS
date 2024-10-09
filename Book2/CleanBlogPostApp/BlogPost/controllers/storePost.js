@@ -1,4 +1,5 @@
 const BlogPost = require('../models/BlogPost.js');
+const path = require('path');
 
 module.exports = (req, res) => {
     console.log(req.files); // Log req.files to see its content
