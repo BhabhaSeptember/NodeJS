@@ -3,14 +3,16 @@ const express = require("express");
 const path = require("path");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
-const BlogPost = require('./models/BlogPost.js');
-const fileUpload = require('express-fileupload') 
-const expressSession = require('express-session');
 
+const fileUpload = require('express-fileupload'); 
+const expressSession = require('express-session');
+const flash = require('connect-flash');
 //CONTROLLERS
 const newPostController = require('./controllers/newPost');
-const getPostController = require('./controllers/getPost');
 const storePostController = require('./controllers/storePost');
+
+const getPostController = require('./controllers/getPost');
+
 const pagesController = require('./controllers/pagesController');
 const homeController = require("./controllers/home");
 const newUserController = require('./controllers/newUser');
@@ -18,6 +20,8 @@ const storeUserController = require('./controllers/storeUser');
 const loginController = require('./controllers/login');
 const loginUserController = require('./controllers/loginUser'); 
 const logoutController = require('./controllers/logout');
+
+// const BlogPost = require('./models/BlogPost.js');
 
 //MIDDLEWARE CONSTANTS
 const validateMiddleWare = require("./middleware/validationMiddleware"); 
@@ -28,9 +32,19 @@ const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthen
 const app = new express();
 
 //CONNECT TO DATABASE
-mongoose.connect("mongodb://localhost/blog_db", { useNewUrlParser: true });
+mongoose.connect("mongodb://0.0.0.0:27017/blog_db", 
+{ useNewUrlParser: true}
+);
 
-app.set("view engine", "ejs");
+//MIDDLEWARE FUNCTIONS
+app.use(express.static("public"));
+app.use(express.json()); 
+app.use(express.urlencoded());
+app.use(fileUpload()); 
+app.use(expressSession({ 
+  secret: 'keyboard cat' 
+  }));
+
 
 //CUSTOM MIDDLEWARE
 // const customMiddleWare = (req,res,next)=>{ 
@@ -49,13 +63,7 @@ app.set("view engine", "ejs");
 
   
 
-app.use(express.static("public"));
-app.use(express.json()); 
-app.use(express.urlencoded());
-app.use(fileUpload()); 
-app.use(expressSession({ 
-  secret: 'keyboard cat' 
-  }));
+
 
 global.loggedIn = null;
  
@@ -66,7 +74,9 @@ app.use("*", (req, res, next) => {
 
 // app.use(customMiddleWare); 
 app.use('/posts/store', validateMiddleWare); 
+app.use(flash());
 
+app.set("view engine", "ejs");
 
 //CHAPTER 3 ROUTES
 // app.get("/", (req, res) => {
@@ -92,19 +102,18 @@ app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserControll
 app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController);
 app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController);
 app.get('/auth/logout', logoutController);
-// app.use((req, res) => res.render('notfound'));
+
 
 //PAGE ROUTES
 app.get("/", homeController);
 app.get("/about", pagesController.about);
-app.get("/contact", pagesController.contact);
+
 
 
 
 
 //POST ROUTES
 app.get("/post/:id", getPostController);
-
 app.get("/posts/new", authMiddleware, newPostController);
 
 //STORE POST IN DATABASE 
@@ -139,6 +148,9 @@ app.get("/posts/new", authMiddleware, newPostController);
 
 app.post('/posts/store', authMiddleware, storePostController);
 
+app.get("/contact", pagesController.contact);
+
+app.use((req, res) => res.render('notfound'));
 app.listen(4000, () => {
   console.log("App listening on port 4000");
 });

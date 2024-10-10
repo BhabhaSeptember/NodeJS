@@ -17,13 +17,11 @@ module.exports = (req, res) => {
                     res.redirect('/auth/login');
                 };
             });
-        } else {
-            console.log("User not found...")
-            res.redirect('/auth/login');
-        };
+        } 
     })
-    .catch(error => {
-       console.log(error);
-       res.redirect('/auth/login');
+    .catch((error) => {
+       res.redirect('/auth/login')
+        console.log("User not found...", error);
+        
     });
-};
+    };

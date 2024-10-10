@@ -1,5 +1,5 @@
 module.exports = (req, res) => {
-  req.session.destroy(() => { //destroys session data incl user id
+  req.session.destroy(() => { //removes session data from browser incl user id
     res.redirect("/");
   });
 };

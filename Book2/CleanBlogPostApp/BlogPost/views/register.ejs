@@ -21,24 +21,22 @@
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
-                        <% if(errors != null && errors.length > 0){ %> 
+                        <div class="my-5">
+                        <% if (errors != null && errors.length > 0) { %> 
                             <ul class="list-group">         
-                            <% for (var i = 0; i < errors.length; i++) { %> 
-                            <li class="list-group-item list-group-item-danger"><%= 
-                            errors[i] %></li> 
+                            <% for (let i = 0; i < errors.length; i++) { %> 
+                            <li class="list-group-item list-group-item-danger"><%= errors[i] %></li> %>
                             <% } %> 
                             </ul>           
-                            <% } %>
-                        <div class="my-5">
-                            
+                            <% } %>            
                             <form action="/users/register" method="POST" enctype="multipart/form-data">
                                 <div class="form-floating">
-                                    <input class="form-control" id="username" name="username" type="text" placeholder="Enter your username..." required />
+                                    <input class="form-control" id="username" name="username" type="text" placeholder="Enter your username..." value="<%= username %>" />
                                     <label>User Name</label>
                                 </div>
 
                                 <div class="form-floating">
-                                    <input class="form-control" id="password" name="password" type="password" placeholder="Enter your password..." required />
+                                    <input class="form-control" id="password" name="password" type="password" value="<%= password %>"/>
                                     <label>Password</label>
                                 </div>
                             
@@ -54,10 +52,5 @@
         </main>
         <%- include('layouts/footer'); -%> 
 <%- include('layouts/scripts'); -%> 
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <!-- * *                               SB Forms JS                               * *-->
-        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-    </body>
+    
 </html>
