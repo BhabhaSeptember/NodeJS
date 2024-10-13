@@ -151,7 +151,7 @@ module.exports = {
     let courseId = req.params.id;
     let currentUser = req.user;
     
-    if (currentUser) {
+    if (currentUser) { //check if user currently logged in
       User.findByIdAndUpdate(currentUser, {
         $addToSet: {
           courses: courseId
@@ -175,7 +175,7 @@ module.exports = {
     //Check if user is logged in
     if (currentUser) {
       let mappedCourses = res.locals.courses.map( (course) => {
-        //Some function returns boolean value to confirm if match occurs
+        //userJoined value is True or False
         let userJoined = currentUser.courses.some( (userCourse) => {
           return userCourse.equals(course._id);
         });

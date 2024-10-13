@@ -56,9 +56,24 @@
                                     <label>Title</label>
                                 </div>
                             
-                                <div class="form-floating">
+                                <!-- <div class="form-floating">
                                     <textarea class="form-control" id="body" name="body" rows="5""></textarea>
                                     <label>Body</label>
+                                </div> -->
+
+                                <div class="form-floating">
+                                    <div class="form-group floating-label-form-group controls"> 
+                                    <label>Body</label>
+                                    <textarea class="form-control" id="body" name="body"></textarea>
+                                    
+                                    <script> 
+                                        $('#body').summernote({ 
+                                          placeholder: 'Hello bootstrap 4', 
+                                          tabsize: 2, 
+                                          height: 200 
+                                        }); 
+                                      </script> 
+                                </div>
                                 </div>
                             
                                 <div class="form-floating">

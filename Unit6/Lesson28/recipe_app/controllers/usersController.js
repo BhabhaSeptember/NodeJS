@@ -189,28 +189,54 @@ module.exports = {
     }
   },
 
+  // apiAuthenticate: (req, res, next) => {
+  // //Verify user email address and password match that of a User in database  
+  //   passport.authenticate("local", (errors, user) => {
+  //     if (user) {
+  // //Create token with users ID & expiration date   
+  //       let signedToken = jsonWebToken.sign(
+  //         {
+  //           date: user._id,
+  //           exp: new Date().setDate(new Date().getDate() + 1) //Expires 1 day from the time of signing (24hrs)
+  //         },
+  //         "secret_encoding_passphrase"
+  //       );
+  //       res.json({
+  //         success: true,
+  //         token: signedToken
+  //       });
+  //     } else {
+  //       res.json({
+  //         success: false,
+  //         message: "Could not authenticate user..."
+  //       });
+  //     }(res, res, next);
+  //   })
+  // }
+
   apiAuthenticate: (req, res, next) => {
-  //Verify user email address and password match that of a User in database  
-    passport.authenticate("local", (errors, user) => {
-      if (user) {
-  //Create token with users ID & expiration date   
+    passport.authenticate("local", (errors, user, info) => {
+        if (errors) {
+            return res.status(500).json({ success: false, message: "Server error" });
+        }
+        if (!user) {
+            return res.status(401).json({ success: false, message: "Could not authenticate user..." });
+        }
+
+        // Create token with user's ID & expiration date
         let signedToken = jsonWebToken.sign(
-          {
-            date: user._id,
-            exp: new Date().setDate(new Date().getDate() + 1) //Expires 1 day from the time of signing (24hrs)
-          },
-          "secret_encoding_passphrase"
+            {
+                id: user._id,
+                exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) // Expires in 24 hours
+            },
+            "secret_encoding_passphrase"
         );
-        res.json({
-          success: true,
-          token: signedToken
+
+        return res.json({
+            success: true,
+            token: signedToken
         });
-      } else {
-        res.json({
-          success: false,
-          message: "Could not authenticate user..."
-        });
-      }(res, res, next);
-    })
-  }
+    })(req, res, next); // Important: pass req, res, next here
+}
+
 };
