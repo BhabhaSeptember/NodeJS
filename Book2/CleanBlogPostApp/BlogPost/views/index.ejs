@@ -28,7 +28,7 @@
               <h2 class="post-title"><%= blogposts[i].title %></h2>
               <h3 class="post-subtitle"><%= blogposts[i].body %></h3>
             </a>
-            <p class="post-meta">Posted by <a href="#!"><%= blogposts[i].userid.username %></a> 
+            <p class="post-meta">Posted by <a href="#!"><%= blogposts[i].userid ? blogposts[i].userid.username : 'Anonymous' %></a> 
               on <%= blogposts[i].datePosted.toDateString() %></p>
           </div>
           <!-- Divider-->

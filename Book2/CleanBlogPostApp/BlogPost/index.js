@@ -7,16 +7,20 @@ const mongoose = require("mongoose");
 const fileUpload = require('express-fileupload'); 
 const expressSession = require('express-session');
 const flash = require('connect-flash');
+
 //CONTROLLERS
-const newPostController = require('./controllers/newPost');
-const storePostController = require('./controllers/storePost');
-
-const getPostController = require('./controllers/getPost');
-
 const pagesController = require('./controllers/pagesController');
 const homeController = require("./controllers/home");
+//posts
+const newPostController = require('./controllers/newPost');
+const getPostController = require('./controllers/getPost');
+const storePostController = require('./controllers/storePost');
+
+//users
 const newUserController = require('./controllers/newUser');
 const storeUserController = require('./controllers/storeUser');
+
+//login
 const loginController = require('./controllers/login');
 const loginUserController = require('./controllers/loginUser'); 
 const logoutController = require('./controllers/logout');
@@ -31,8 +35,8 @@ const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthen
 //INITIALIZE EXPRESS APP
 const app = new express();
 
-//CONNECT TO DATABASE
-mongoose.connect("mongodb://0.0.0.0:27017/blog_db", 
+//CONNECT TO DATABASE  EOZVjdn6jSTqpUkj
+mongoose.connect("mongodb+srv://bhabha:EOZVjdn6jSTqpUkj@nodejs-blogpostapp.wqao0.mongodb.net/blog_db", 
 { useNewUrlParser: true}
 );
 
@@ -46,11 +50,12 @@ app.use(expressSession({
   }));
 
 
-//CUSTOM MIDDLEWARE
+// CUSTOM MIDDLEWARE
 // const customMiddleWare = (req,res,next)=>{ 
 //   console.log('Custom middle ware called'); 
 //   next(); 
 //   }; 
+// app.use(customMiddleWare);
 
 //VALIDATION MIDDLEWARE
   // const validateMiddleWare = (req,res,next)=>{     
@@ -62,9 +67,6 @@ app.use(expressSession({
   // };
 
   
-
-
-
 global.loggedIn = null;
  
 app.use("*", (req, res, next) => { 
@@ -101,15 +103,13 @@ app.get('/auth/register', redirectIfAuthenticatedMiddleware, newUserController);
 app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserController) 
 app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController);
 app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController);
+
 app.get('/auth/logout', logoutController);
 
 
 //PAGE ROUTES
 app.get("/", homeController);
 app.get("/about", pagesController.about);
-
-
-
 
 
 //POST ROUTES
@@ -151,6 +151,14 @@ app.post('/posts/store', authMiddleware, storePostController);
 app.get("/contact", pagesController.contact);
 
 app.use((req, res) => res.render('notfound'));
-app.listen(4000, () => {
-  console.log("App listening on port 4000");
+
+
+// app.listen(4000, () => {
+//   console.log("App listening on port 4000");
+// });
+
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
 });

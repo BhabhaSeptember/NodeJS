@@ -12,7 +12,7 @@ module.exports = (req, res) => {
                     console.log("User logged in successfully!");
                     req.session.userId = user._id 
                     res.redirect('/');
-                } else {
+                } else { 
                     console.log("Invalid User login...")
                     res.redirect('/auth/login');
                 };

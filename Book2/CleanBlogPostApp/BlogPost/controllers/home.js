@@ -1,7 +1,7 @@
 const BlogPost = require('../models/BlogPost');
 
 module.exports = async (req, res) =>{ 
-    const blogposts = await BlogPost.find({}).populate('userid', 'username'); 
-    console.log(req.session);         
+    const blogposts = await BlogPost.find().populate('userid', 'username'); 
+    // console.log(req.session);         
     res.render('index', { blogposts }); 
 }; 

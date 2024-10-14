@@ -1,4 +1,4 @@
-module.exports = (req, res) => {
+module.exports = (req, res) => { 
     let username = ""
     let password = ""
     const data = req.flash('data')[0];
@@ -8,7 +8,10 @@ module.exports = (req, res) => {
         username = data.username
         password = data.password
     }
+    //-------------------------------------------
     res.render('register',{ 
+    //-------------------------------------------
+
         // errors: req.session.validationErrors 
         errors: req.flash('validationErrors'),
         username: username,
