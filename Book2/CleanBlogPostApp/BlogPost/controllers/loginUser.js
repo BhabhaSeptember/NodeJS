@@ -20,7 +20,7 @@ module.exports = (req, res) => {
         } 
     })
     .catch((error) => {
-       res.redirect('/auth/login')
+       res.redirect('/auth/login');
         console.log("User not found...", error);
         
     });

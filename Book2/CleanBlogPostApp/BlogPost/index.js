@@ -3,8 +3,8 @@ const express = require("express");
 const path = require("path");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
-
 const fileUpload = require('express-fileupload'); 
+
 const expressSession = require('express-session');
 const flash = require('connect-flash');
 
@@ -45,10 +45,10 @@ app.use(express.static("public"));
 app.use(express.json()); 
 app.use(express.urlencoded());
 app.use(fileUpload()); 
+
 app.use(expressSession({ 
   secret: 'keyboard cat' 
   }));
-
 
 // CUSTOM MIDDLEWARE
 // const customMiddleWare = (req,res,next)=>{ 

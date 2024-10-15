@@ -6,7 +6,7 @@ const db = require("./models");
 
 //========================================= CASE 1: MONGOOSE ONE-TO-MANY(FEW) RELATIONSHIP =========================================
 
-//================ IMAGES ================
+//================= IMAGES ================
 
 //CREATING A NEW TUTORIALS COLLECTION
 const createTutorial = function (tutorial) {
