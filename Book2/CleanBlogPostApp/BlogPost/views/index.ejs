@@ -10,8 +10,32 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-md-10 col-lg-8 col-xl-7">
             <div class="site-heading">
-              <h1>Welcome</h1>
-              <span class="subheading">Share your posts and see what other bloggers around the world have to say...</span>
+              <% if(loggedIn) { %>
+                <h1>Welcome!</h1>
+                                                       
+                  <span class="subheading"> <i>Click the 'New Post' Link Above to Create Your Own Blog Post</i>
+                    <br>
+                    <br>
+                    <br>
+                    <br>  
+                  Or scroll through the posts below to read what other bloggers have shared
+                </span>
+                <% } %> 
+
+                <% if(!loggedIn) { %> 
+                  <h1>Hello there, </h1>
+                    <br>
+                    <br>
+                    <br>                   
+                  <span class="subheading">Register an Account and Login to Join The Blog Spot Community
+                    <br>
+                    <br>
+                  A platform where bloggers can share stories, ideas and much more!
+                </span>
+                  <% } %>
+
+
+            
             </div>
           </div>
         </div>
