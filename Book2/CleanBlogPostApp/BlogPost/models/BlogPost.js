@@ -5,7 +5,7 @@ const BlogPostSchema = new Schema({
   title: String,
   body: String,
   image: String,
-  username: String,
+  // username: String,
   userid: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
