@@ -3,7 +3,6 @@ mongoose.set("strictPopulate", false);
 
 const db = require("./models");
 
-
 //========================================= CASE 1: MONGOOSE ONE-TO-MANY(FEW) RELATIONSHIP =========================================
 
 //================= IMAGES ================
