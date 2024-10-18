@@ -39,7 +39,7 @@ let addJoinButtonListener = () => {
           .addClass("joined-button")
           .removeClass("join-button");
       } else {
-        $button.text("Try again");
+        $button.text("Please login, Then try again");
       }
     });
   });

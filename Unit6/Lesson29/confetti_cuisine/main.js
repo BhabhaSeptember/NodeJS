@@ -1,23 +1,25 @@
 "use strict";
 
-const express = require("express");
-const layouts = require("express-ejs-layouts");
-const app = express();
-// const router = express.Router();
-const router = require("./routes/index")
-
-const mongoose = require("mongoose");
-const methodOverride = require("method-override");
-const passport = require("passport");
-const cookieParser = require("cookie-parser");
-const expressSession = require("express-session");
-const expressValidator = require("express-validator");
-const connectFlash = require("connect-flash");
-const User = require("./models/user");
-
+const express = require("express"),
+  layouts = require("express-ejs-layouts"),
+  app = express(),
+  router = require("./routes/index"),
+  homeController = require("./controllers/homeController"),
+  errorController = require("./controllers/errorController"),
+  subscribersController = require("./controllers/subscribersController.js"),
+  usersController = require("./controllers/usersController.js"),
+  coursesController = require("./controllers/coursesController.js"),
+  mongoose = require("mongoose"),
+  methodOverride = require("method-override"),
+  passport = require("passport"),
+  cookieParser = require("cookie-parser"),
+  expressSession = require("express-session"),
+  expressValidator = require("express-validator"),
+  connectFlash = require("connect-flash"),
+  User = require("./models/user");
 
 mongoose.connect(
-  "mongodb://0.0.0.0:27017/confetti_cuisine",
+  "mongodb://localhost:27017/confetti_cuisine",
   { useNewUrlParser: true }
 );
 mongoose.set("useCreateIndex", true);
@@ -66,7 +68,6 @@ app.use((req, res, next) => {
   res.locals.flashMessages = req.flash();
   next();
 });
-
 
 app.use("/", router);
 

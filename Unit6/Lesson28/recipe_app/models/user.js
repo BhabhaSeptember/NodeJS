@@ -67,11 +67,11 @@ userSchema.pre("save", function(next) {
   }
 });
 
-userSchema.pre("save", function(next) {
-  let user = this;
-  if (!user.apiToken) user.apiToken = randToken.generate(16);
-  next();
-});
+// userSchema.pre("save", function(next) {
+//   let user = this;
+//   if (!user.apiToken) user.apiToken = randToken.generate(16);
+//   next();
+// });
 
 
 userSchema.plugin(passportLocalMongoose, {
