@@ -18,10 +18,9 @@ const express = require("express"),
   connectFlash = require("connect-flash"),
   User = require("./models/user");
 
-mongoose.connect(
-  "mongodb://localhost:27017/confetti_cuisine",
-  { useNewUrlParser: true }
-);
+mongoose.connect("mongodb://localhost:27017/confetti_cuisine", {
+  useNewUrlParser: true,
+});
 mongoose.set("useCreateIndex", true);
 
 app.set("port", process.env.PORT || 3000);
@@ -29,7 +28,7 @@ app.set("view engine", "ejs");
 
 app.use(
   methodOverride("_method", {
-    methods: ["POST", "GET"]
+    methods: ["POST", "GET"],
   })
 );
 
@@ -38,7 +37,7 @@ app.use(express.static("public"));
 app.use(expressValidator());
 app.use(
   express.urlencoded({
-    extended: false
+    extended: false,
   })
 );
 app.use(express.json());
@@ -48,10 +47,10 @@ app.use(
   expressSession({
     secret: "secretCuisine123",
     cookie: {
-      maxAge: 4000000
+      maxAge: 4000000,
     },
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
   })
 );
 app.use(connectFlash());

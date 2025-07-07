@@ -4,7 +4,7 @@
   "description": "A site for booking classes for cooking.",
   "main": "main.js",
   "scripts": {
-   "start": "nodemon node main.js"
+    "start": "nodemon node main.js"
   },
   "author": "Bhabha September",
   "license": "ISC",
